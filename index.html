@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Système de Gestion RFID</title>
+    <!-- Lien vers le fichier CSS de Tailwind -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="bg-gray-100">
+    <header class="bg-green-500 text-white text-center py-4">
+        <h1 class="text-2xl md:text-4xl">Système de Gestion RFID</h1>
+    </header>
+    <main class="container mx-auto mt-8 p-4">
+        <section id="add-rfid" class="bg-white p-6 shadow mb-6">
+            <h2 class="text-xl mb-4">Ajouter une Nouvelle Carte RFID</h2>
+            <form id="rfid-form" class="space-y-4" aria-labelledby="add-rfid">
+                <div>
+                    <label for="rfid-id" class="block text-gray-700">ID RFID (Ex:20240001) :</label>
+                    <input type="text" id="rfid-id" name="rfid-id" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div>
+                    <label for="additional-info" class="block text-gray-700">Informations Supplémentaires :</label>
+                    <input type="text" id="additional-info" name="additional-info" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div>
+                    <label for="first-name" class="block text-gray-700">Prénom :</label>
+                    <input type="text" id="first-name" name="first-name" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div>
+                    <label for="last-name" class="block text-gray-700">Nom :</label>
+                    <input type="text" id="last-name" name="last-name" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div>
+                    <label for="academic-year" class="block text-gray-700">Année Universitaire :</label>
+                    <input type="text" id="academic-year" name="academic-year" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div>
+                    <label for="phone-number" class="block text-gray-700">Numéro de Téléphone :</label>
+                    <input type="text" id="phone-number" name="phone-number" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div>
+                    <label for="email" class="block text-gray-700">Adresse Email :</label>
+                    <input type="email" id="email" name="email" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">Ajouter</button>
+                <div id="form-error-message" class="text-red-500 mt-2" role="alert" aria-live="assertive"></div>
+            </form>
+        </section>
+        <section id="search-rfid" class="bg-white p-6 shadow mb-6">
+            <h2 class="text-xl mb-4">Rechercher une Carte RFID</h2>
+            <form id="search-form" class="space-y-4" aria-labelledby="search-rfid">
+                <div>
+                    <label for="search-rfid-id" class="block text-gray-700">ID RFID :</label>
+                    <input type="text" id="search-rfid-id" name="search-rfid-id" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <button type="submit" class="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600">Rechercher</button>
+            </form>
+            <div id="search-results" class="mt-4" role="region" aria-live="polite">
+                <!-- Les résultats de la recherche seront affichés ici -->
+            </div>
+        </section>
+        <section id="rfid-data" class="bg-white p-6 shadow">
+            <h2 class="text-xl mb-4">Informations des Cartes RFID</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2 border-b">ID RFID</th>
+                            <th class="px-4 py-2 border-b">Informations Supplémentaires</th>
+                            <th class="px-4 py-2 border-b">Prénom</th>
+                            <th class="px-4 py-2 border-b">Nom</th>
+                            <th class="px-4 py-2 border-b">Année Universitaire</th>
+                            <th class="px-4 py-2 border-b">Numéro de Téléphone</th>
+                            <th class="px-4 py-2 border-b">Adresse Email</th>
+                            <th class="px-4 py-2 border-b">Date d'Enregistrement</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rfid-table-body">
+                        <!-- Les données seront insérées ici -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-green-500 text-white text-center py-4 mt-8">
+        <p>&copy; 2024 Système de Gestion RFID</p>
+    </footer>
+    <script src="/static/script.js"></script>
+</body>
+</html>
