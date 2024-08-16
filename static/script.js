@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const rfidForm = document.getElementById("rfid-form");
     const searchForm = document.getElementById("search-form");
 
-    // Validation des données
+    // Fonction de validation des données
     function validateEmail(email) {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(String(email).toLowerCase());
@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return re.test(String(phone));
     }
 
+    // Fonction pour ajouter un nouvel élément RFID
     rfidForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -26,17 +27,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Validation des données
         if (!validateEmail(email)) {
-            alert("Veuillez entrer une adresse email valide.");
+            document.getElementById("form-error-message").textContent = "Veuillez entrer une adresse email valide.";
             return;
         }
 
         if (!validatePhoneNumber(phoneNumber)) {
-            alert("Veuillez entrer un numéro de téléphone valide de 10 chiffres.");
+            document.getElementById("form-error-message").textContent = "Veuillez entrer un numéro de téléphone valide de 10 chiffres.";
             return;
         }
 
         try {
-            const response = await fetch("http://192.168.1.2:8000/rfid", {  // Remplacer par l'adresse IP locale
+            const response = await fetch("http://localhost:8000/rfid", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -55,23 +56,25 @@ document.addEventListener("DOMContentLoaded", () => {
             if (response.ok) {
                 loadRfidData();
                 rfidForm.reset();
+                document.getElementById("form-error-message").textContent = "";
                 alert("Carte RFID ajoutée avec succès.");
             } else {
                 const data = await response.json();
-                alert(`Erreur: ${data.detail}`);
+                document.getElementById("form-error-message").textContent = `Erreur: ${data.detail}`;
             }
         } catch (error) {
-            alert(`Erreur de connexion: ${error.message}`);
+            document.getElementById("form-error-message").textContent = `Erreur de connexion: ${error.message}`;
         }
     });
 
+    // Fonction pour rechercher un élément RFID
     searchForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const searchRfidId = document.getElementById("search-rfid-id").value;
 
         try {
-            const response = await fetch(`http://192.168.1.2:8000/rfid/${searchRfidId}`);  // Remplacer par l'adresse IP locale
+            const response = await fetch(`http://localhost:8000/rfid/${searchRfidId}`);
             const data = await response.json();
 
             const searchResults = document.getElementById("search-results");
@@ -95,13 +98,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 searchResults.innerHTML = `<p>${data.detail}</p>`;
             }
         } catch (error) {
-            alert(`Erreur de connexion: ${error.message}`);
+            searchResults.innerHTML = `<p>Erreur de connexion: ${error.message}</p>`;
         }
     });
 
+    // Fonction pour charger les données RFID et les afficher dans le tableau
     async function loadRfidData() {
         try {
-            const response = await fetch("http://192.168.1.2:8000/rfid");  // Remplacer par l'adresse IP locale
+            const response = await fetch("http://localhost:8000/rfid");
             const data = await response.json();
             const tableBody = document.getElementById("rfid-table-body");
 
@@ -111,10 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const row = document.createElement("tr");
 
                 const cellId = document.createElement("td");
-                const link = document.createElement("a");
-                link.href = `#`; // Si tu n'as pas encore detail.html, enlève ce lien ou ajuste-le
-                link.textContent = item.rfid_id;
-                cellId.appendChild(link);
+                cellId.textContent = item.rfid_id;
                 row.appendChild(cellId);
 
                 const cellInfo = document.createElement("td");
@@ -152,5 +153,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    // Charger les données RFID lors du chargement de la page
     loadRfidData();
 });
